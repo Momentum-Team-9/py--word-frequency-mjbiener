@@ -10,42 +10,25 @@ def print_word_freq(file):
     with open(file) as opened_file:
         raw_text = opened_file.read()
 
-        # '''prints raw text'''
-        print(raw_text)
-
     raw_text = raw_text.lower().replace("\n", " ")
     punct = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     for char in raw_text:
         if char in punct:
             raw_text = raw_text.replace(char, "")
 
-    # '''prints lower cased text without line breaks or punctuation'''
-    print(raw_text)
-
     text_list = raw_text.split()
     text_list_copy = text_list.copy()
-
-    # '''prints text in list format'''
-    print(text_list_copy)
-
     word_count = {}
+
     for word in text_list_copy:
         if word in STOP_WORDS:
             text_list_copy.remove(word)
         elif word not in word_count:
-            unsorted_word_count = text_list_copy.count(word)
-            word_count[word] = unsorted_word_count
+            word_count[word] = text_list_copy.count(word)
 
-    sorted_word_count = sorted(word_count.values(), reverse=True)
-    sorted_dictionary = {}
-
-    for idx in sorted_word_count:
-        for kys in word_count.keys():
-            if word_count[kys] == idx:
-                sorted_dictionary[kys] = word_count[kys]
-    for key, value in sorted_dictionary.items():
-        print(key.rjust(20), ' | ', str(value).center(3), value * ("*"))
-
+    sorted_count = sorted(word_count.items(), key=lambda seq: seq[1], reverse=True)
+    for x in sorted_count:
+        print(x[0].rjust(20), ' | ', str(x[1]).center(3), (x[1]*("*")))
 
 
 if __name__ == "__main__":
